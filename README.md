@@ -9,9 +9,18 @@ A pan and tilt camera turret that finds your face and keeps it in the middle of 
 Runs on a Raspberry Pi 5 with a cheap SPI camera and two SG90 servos, all wired straight
 to the Pi's header. No servo driver board, no second power supply.
 
-<!-- Add a demo clip here once you have one:
-![Turret tracking a face](docs/images/demo.gif)
--->
+[![The assembled turret, click to watch it tracking a face](docs/images/turret.jpg)](https://www.tiktok.com/@traxrobotics/video/7688967664974302495)
+
+The assembled turret. **[Click the photo to watch it track a face.](https://www.tiktok.com/@traxrobotics/video/7688967664974302495)**
+
+Two clips, both on TikTok: **[building it](https://www.tiktok.com/@traxrobotics/video/7688210893309562142)**
+and **[tracking a face](https://www.tiktok.com/@traxrobotics/video/7688967664974302495)**.
+Both are short montages rather than tutorials, and both show the physical side
+only -- no terminal, no setup steps. Those are in this README and in
+[`docs/`](docs/).
+
+<!-- A looping demo.gif at docs/images/demo.gif would play inline here;
+     GitHub strips video embeds, so the photo above links out instead. -->
 
 ## Features
 
@@ -38,10 +47,20 @@ to the Pi's header. No servo driver board, no second power supply.
 | Raspberry Pi 5 | Raspberry Pi OS Bookworm or Trixie |
 | ArduCAM Mini 2MP Plus (B0067) | OV2640 sensor, SPI + I2C |
 | 2 × SG90 micro servos | pan and tilt |
-| Pan and tilt bracket | any SG90 bracket works |
+| Pan and tilt bracket | any SG90 bracket works, or print the one in [`hardware/`](hardware/) |
 | 8 × female to female jumpers | camera |
 | 6 × male to female jumpers | servos |
 | 1000 µF electrolytic capacitor, 10 V+ | across one servo's power, stops brownout resets |
+
+### Printed parts
+
+Three printable parts are in [`hardware/`](hardware/) if you would rather print the
+bracket than buy one: the base, the arm, and the camera attachment. Each comes as
+`.3mf` to print and `.step` to edit.
+
+The base has no floor. That keeps the servo and wiring reachable while you build,
+and lets the turret bolt onto another robot's deck instead of carrying its own
+bottom plate. See [`hardware/README.md`](hardware/README.md) for print settings.
 
 ## Wiring
 
