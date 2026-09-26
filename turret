@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Control the turret. Never asks for a password.
+#   turret status     is it running?
+#   turret log        watch what it is doing (Ctrl+C stops watching)
+#   turret stop       stop it
+#   turret start      start it again
+#   turret restart    restart it, e.g. after changing config.py
+#   turret run        stop the background one and run it here in this window
+#   turret boot-off   do not start on boot any more
+#   turret boot-on    start on boot again
+#   turret doctor     check everything and say what is wrong
+
+SYSTEMCTL="/usr/bin/systemctl"
+DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+
+ctl() {   # run systemctl as root, without a password (install_boot.sh allows exactly these)
+  sudo -n "$SYSTEMCTL" "$@" 2>/dev/null || {
+    echo "Could not run: systemctl $*"
+    echo "Run  bash $DIR/install_boot.sh  once, then reboot."
+    return 1
+  }
+}
+
+case "$1" in
+  start|stop|restart)
+    ctl "$1" turret && echo "turret: $1 done"
+    ;;
+  status)
+    if "$SYSTEMCTL" is-active --quiet turret; then echo "turret is RUNNING"; else echo "turret is STOPPED"; fi
+    if "$SYSTEMCTL" is-enabled --quiet turret 2>/dev/null; then echo "starts on boot: yes"; else echo "starts on boot: no"; fi
+    echo
+    echo "last lines of the log:"
+    tail -n 4 "$DIR/turret.log" 2>/dev/null || echo "  (no log yet)"
+    ;;
+  log)
+    tail -n 30 -f "$DIR/turret.log"
+    ;;
+  run)
+    ctl stop turret >/dev/null 2>&1
+    echo "(background turret stopped. 'turret start' brings it back)"
+    cd "$DIR" && python3 tracker.py "${@:2}"
+    ;;
+  boot-off)
+    ctl disable --now turret && echo "turret stopped and will not start on boot"
+    ;;
+  boot-on)
+    ctl enable --now turret && echo "turret started and will start on boot"
+    ;;
+  doctor)
+    bash "$DIR/doctor.sh"
+    ;;
+  *)
+    sed -n '2,12p' "$(readlink -f "$0")" | sed 's/^# \{0,1\}//'
+    ;;
+esac

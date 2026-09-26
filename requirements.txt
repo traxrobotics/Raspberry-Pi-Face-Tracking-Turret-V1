@@ -1,0 +1,8 @@
+# On the Raspberry Pi, install these with setup.sh (uses apt), not pip.
+# This file is here for reference and for pip users on other Linux boards.
+numpy
+opencv-python-headless>=4.8   # 4.8+ enables the YuNet face detector
+spidev
+smbus2
+gpiozero
+lgpio

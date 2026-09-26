@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Made by the turret while it runs
+turret.log
+snapshot.jpg
+.lgd-nfy*
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local only settings, if you keep a private copy of config.py
+config_local.py

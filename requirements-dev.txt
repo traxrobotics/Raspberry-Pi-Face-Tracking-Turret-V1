@@ -1,0 +1,7 @@
+# For running the automatic tests on any computer (no Pi needed):
+#   pip install -r requirements-dev.txt
+#   pytest
+numpy
+opencv-python-headless>=4.8
+pytest
+ruff

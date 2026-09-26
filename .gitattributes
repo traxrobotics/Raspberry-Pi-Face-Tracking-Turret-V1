@@ -1,0 +1,9 @@
+# Shell scripts must keep Linux line endings or they fail on the Pi
+*.sh     text eol=lf
+turret   text eol=lf
+*.py     text eol=lf
+
+# Model files are binary
+*.onnx       binary
+*.caffemodel binary
+*.jpg        binary
