@@ -197,7 +197,7 @@ Common problems and fixes: [docs/troubleshooting.md](docs/troubleshooting.md).
 ## License
 
 MIT. See [LICENSE](LICENSE). The face detection models in `models/` keep their own
-licenses, listed in [models/README.md](models/README.md).
+licenses, listed in [NOTICE](NOTICE) and in [models/README.md](models/README.md).
 
 ## Author
 
