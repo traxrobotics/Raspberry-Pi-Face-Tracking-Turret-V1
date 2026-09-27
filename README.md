@@ -1,6 +1,6 @@
 # Raspberry Pi Face Tracking Turret v1
 
-[![CI](https://github.com/traxrobotics/pi5-face-tracking-turret/actions/workflows/ci.yml/badge.svg)](https://github.com/traxrobotics/pi5-face-tracking-turret/actions/workflows/ci.yml)
+[![CI](https://github.com/traxrobotics/RaspberryPiFaceTrackingTurretV1/actions/workflows/ci.yml/badge.svg)](https://github.com/traxrobotics/RaspberryPiFaceTrackingTurretV1/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Raspberry Pi 5](https://img.shields.io/badge/Raspberry%20Pi-5-c51a4a)
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776ab)
@@ -81,7 +81,7 @@ Full diagram, reasons for each pin, and assembly order: [docs/wiring.md](docs/wi
 On the Pi:
 
 ```bash
-git clone https://github.com/traxrobotics/pi5-face-tracking-turret.git ~/turret
+git clone https://github.com/traxrobotics/RaspberryPiFaceTrackingTurretV1.git ~/turret
 cd ~/turret
 bash setup.sh          # packages, SPI, I2C, hardware PWM
 bash install_boot.sh   # start on boot + password free 'turret' command
