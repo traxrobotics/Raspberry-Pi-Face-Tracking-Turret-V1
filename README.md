@@ -7,7 +7,7 @@
 
 A pan and tilt camera turret that finds your face and keeps it in the middle of the picture.
 Runs on a Raspberry Pi 5 with a cheap SPI camera and two SG90 servos, all wired straight
-to the Pi's header. No servo driver board, no second power supply.
+to the Pi's header. No servo driver board, no second power supply. A Pi 4 is fine too.
 
 [![The assembled turret, click to watch it tracking a face](docs/images/turret.jpg)](https://www.tiktok.com/@traxrobotics/video/7688967664974302495)
 
