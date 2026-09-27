@@ -1,4 +1,4 @@
-# Pi 5 Face Tracking Turret
+# Raspberry Pi Face Tracking Turret v1
 
 [![CI](https://github.com/traxrobotics/pi5-face-tracking-turret/actions/workflows/ci.yml/badge.svg)](https://github.com/traxrobotics/pi5-face-tracking-turret/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
