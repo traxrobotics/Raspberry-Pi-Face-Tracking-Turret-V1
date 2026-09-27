@@ -183,6 +183,17 @@ pytest
 The `test_*.py` files in the top folder are hardware checks for the Pi. The automatic
 tests live in `tests/` and use a fake camera and fake servos.
 
+**One test is known to be flaky.** `test_turret_centers_on_the_face_and_settles`
+fails roughly one run in four, with "turret ran away from the face". It is not
+your machine and it is not a broken checkout: the fake camera produces a frame
+every 30 ms while the servos run their own 100 Hz loop on the real clock, so how
+far they turn between frames depends on how busy the machine is. On a loaded one
+they overrun the face and the assertion fires. Re-run `pytest` and it passes.
+
+Worth knowing rather than hiding, because it is pointing at something real: when
+frames arrive slowly, the tracker overshoots. On a Pi that is fast enough to keep
+the frame rate up you will not see it.
+
 ## Roadmap
 
 * **OLED eyes.** A 0.96" SSD1306 screen showing cartoon eyes that follow your face, blink,
