@@ -756,6 +756,16 @@ def main():
                            speed=getattr(cfg, "SERVO_SPEED", 550.0),
                            accel=getattr(cfg, "SERVO_ACCEL", 4500.0))
 
+    laser = None
+    from laser import LaserError, make_laser
+    try:
+        laser = make_laser(cfg)
+        if laser is not None:
+            print("Laser on GPIO%d" % cfg.LASER_GPIO)
+    except LaserError as e:
+        print("Laser off: %s" % e)
+        laser = None
+
     view = None
     if not args.no_view:
         try:
@@ -813,6 +823,15 @@ def main():
             elif last_face is not None and now - last_face_time < hold_s:
                 holding = True       # missed one frame, keep the box, do not move
 
+            if laser is not None:
+                # On only while a face is actually being tracked, never while chasing
+                # or sweeping to find one. Where the beam lands is set by the mount's
+                # fixed downward tilt, not by anything here.
+                if face is not None or holding:
+                    laser.on()
+                else:
+                    laser.off()
+
             # The moment the face vanishes, look at what moved (only while the camera is
             # fairly still, otherwise the whole picture changes).
             small_now = small_gray(frame)
@@ -848,6 +867,8 @@ def main():
         print("\nStopping.")
     finally:
         grabber.stop()
+        if laser is not None:
+            laser.close()
         if mover is not None:
             mover.settle(cfg.PAN_CENTER, cfg.TILT_CENTER)
             mover.stop()

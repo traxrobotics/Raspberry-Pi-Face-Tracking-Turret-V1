@@ -80,6 +80,14 @@ At 30°/s and about 12 frames a second the view moves under 3° per frame, so a 
 for about 20 frames on every pass. The moment a face is found, the cap is lifted and normal
 tracking takes over at full speed.
 
+## Laser pointer (`laser.py`)
+
+Off by default (`LASER_ENABLED = False`). When on, it is just a GPIO pin going high while a
+face is being tracked and low otherwise, the same on/off pattern used for the camera's chip
+select in `arducam.py`. The safety here is in the hardware, not the code: the laser sits in a
+mount tilted down off the camera's own axis, so the beam always lands below chin height no
+matter where the turret points. The code never computes where to aim it, and never should.
+
 ## Face detection
 
 `FaceDetector` picks the best model the Pi can run:

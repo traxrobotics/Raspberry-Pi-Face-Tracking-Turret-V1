@@ -28,6 +28,8 @@ All settings are in `config.py`. After a change, run `turret restart`.
 | Starts searching too soon or too late | `RETURN_AFTER_S` (default 2.0) |
 | Rather it wait at center than search | `SWEEP = False` |
 | Auto rotate guesses wrong | `AUTO_ROTATE = False` and set `ROTATE` yourself |
+| Want the laser on | wire it (docs/wiring.md), then `LASER_ENABLED = True` |
+| Laser stays off even after wiring it | check `LASER_GPIO` matches the pin you wired, watch `turret log` for the GPIO error |
 
 ## Speed, in numbers
 

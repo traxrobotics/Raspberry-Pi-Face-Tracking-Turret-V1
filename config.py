@@ -59,3 +59,10 @@ SWEEP_TILT = 90               # tilt angle while searching. Lower or raise to ma
 
 # ---------------- live view in a browser ----------------
 STREAM_PORT = 8000
+
+# ---------------- laser pointer ----------------
+# Mounted tilted down in its own bracket (see docs/wiring.md) so the beam always lands
+# below your chin, never at eye height, no matter what the tracking code does. The code
+# only turns it on and off, it never aims it. The downward tilt is what makes it safe.
+LASER_ENABLED = False          # set True once it is wired in
+LASER_GPIO = 27                # physical pin 13

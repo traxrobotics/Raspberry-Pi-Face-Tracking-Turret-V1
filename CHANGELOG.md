@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.0 (2026-10-09)
+
+Optional laser pointer.
+
+* New `laser.py`: turns a GPIO pin on while a face is being tracked and off otherwise
+  (`LASER_ENABLED`, `LASER_GPIO`). Off by default.
+* Eye safety is set by the mount, not the code: the laser is wired tilted down off the
+  camera's own axis, so the beam always lands below chin height regardless of where the
+  turret points. The code only ever turns it on and off, never aims it.
+* A laser error never stops the tracker, same as a live view error.
+* Wiring, settings and troubleshooting docs updated. The planned OLED "eyes" idea is dropped
+  in favor of this.
+
 ## 1.3.0 (2026-09-24)
 
 Chases a head that leaves the picture.

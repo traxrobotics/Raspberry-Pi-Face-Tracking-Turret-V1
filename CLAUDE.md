@@ -54,11 +54,20 @@ stop ping-pong; do not remove them without rerunning `test_catches_a_head_flicke
 many times. Note: a sim that moves the whole photo (not just a head) makes `motion_hint` useless;
 the still-room `room` fixture is the realistic one.
 
-## Planned, not built
+## Laser pointer (`laser.py`)
 
-SSD1306 OLED "eyes" on the shared I2C bus (0x3C, camera is 0x30), VCC on pin 17. Do not add it
-unless asked. If it is added, keep it optional (off when the screen is not found) and never let
-a screen error stop the tracker.
+`Laser` just turns GPIO27 on and off, the same pattern as the camera's CS pin in `arducam.py`.
+`make_laser(cfg)` returns `None` when `LASER_ENABLED` is False, and `main()` never lets a
+`LaserError` stop the tracker (same never-fail-the-tracker pattern as the live view).
+
+**Eye safety comes entirely from the hardware mount, not from the code.** The laser sits in a
+bracket tilted down off the camera's axis, so the beam always lands below chin height
+regardless of where the turret is pointed. The code's only job is on/off based on whether a
+face is currently tracked (`face is not None or holding` in `tracker.py`'s main loop); it must
+never be changed to compute where to aim the laser or to try to land it on a face or eyes. If
+asked to make the laser "more accurate" or track with the camera, point out that the mount's
+fixed tilt is the safety mechanism and keeping the laser's aim independent of the tracking
+math is intentional.
 
 ## Threads
 

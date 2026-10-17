@@ -36,6 +36,8 @@ only -- no terminal, no setup steps. Those are in this README and in
   back to Haar only if the models are missing.
 * **Fixes a sideways or upside down camera by itself**, and tells you the setting to save.
 * **Live view in any browser** with the detected face boxed in green.
+* **Laser pointer, off by default.** Fires only while a face is being tracked. Mounted tilted
+  down off the camera's axis, so the beam always lands below chin height, never at eye height.
 * **Starts on boot** as a system service, with a `turret` command to start, stop and diagnose it.
 * **Plain language errors.** Every failure says which pin or setting to check.
 * **Tested without hardware.** A fake camera and fake servos run the whole tracker in CI.
@@ -73,6 +75,7 @@ bottom plate. See [`hardware/README.md`](hardware/README.md) for print settings.
 | Camera GND | 25 |
 | Pan servo signal / 5 V / GND | 32 (GPIO12) / 2 / 34 |
 | Tilt servo signal / 5 V / GND | 33 (GPIO13) / 4 / 30 |
+| Laser signal / 5 V / GND (optional) | 13 (GPIO27) / 2 or 4 / 14 |
 
 Full diagram, reasons for each pin, and assembly order: [docs/wiring.md](docs/wiring.md).
 
@@ -128,6 +131,7 @@ Everything lives in [`config.py`](config.py). The ones you are most likely to to
 | `RETURN_AFTER_S` | 2.0 | seconds with no face before it starts searching |
 | `CORRECTION` | 0.9 | lower if it swings past you |
 | `SPI_SPEED_HZ` | 8 MHz | drops to 4 MHz by itself if frames fail |
+| `LASER_ENABLED` | False | turn on the laser pointer (wire it first, see docs/wiring.md) |
 
 Symptom by symptom tuning guide: [docs/tuning.md](docs/tuning.md).
 
@@ -156,6 +160,7 @@ More detail: [docs/how-it-works.md](docs/how-it-works.md).
 ```
 tracker.py        main program: detection, aiming, live view
 servo.py          hardware PWM servos and the smooth motion loop
+laser.py          optional laser pointer on/off
 arducam.py        ArduCAM Mini 2MP Plus driver for the Pi 5 (SPI + I2C)
 ov2640_regs.py    sensor register tables
 config.py         every setting
@@ -193,12 +198,6 @@ they overrun the face and the assertion fires. Re-run `pytest` and it passes.
 Worth knowing rather than hiding, because it is pointing at something real: when
 frames arrive slowly, the tracker overshoots. On a Pi that is fast enough to keep
 the frame rate up you will not see it.
-
-## Roadmap
-
-* **OLED eyes.** A 0.96" SSD1306 screen showing cartoon eyes that follow your face, blink,
-  and look around while the turret searches. It can share the camera's I2C bus (it sits at
-  address 0x3C, the camera at 0x30). Planned, not built yet.
 
 ## Troubleshooting
 

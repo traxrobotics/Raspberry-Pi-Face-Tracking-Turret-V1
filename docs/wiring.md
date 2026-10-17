@@ -1,7 +1,7 @@
 # Wiring
 
-Every connection from the ArduCAM B0067 and both SG90 servos into a Raspberry Pi 5 header.
-14 of 40 pins used. No breakout board, no second supply.
+Every connection from the ArduCAM B0067, both SG90 servos, and the laser pointer into a
+Raspberry Pi 5 header. 15 of 40 pins used. No breakout board, no second supply.
 
 > **Camera VCC goes to 3.3 V (pin 1). Never 5 V (pin 2).**
 > The camera runs on either, but its output pins swing to whatever it is fed. The Pi's GPIO
@@ -20,7 +20,7 @@ Run `pinout` on the Pi to see it drawn.
                                  7 ○ ○ 8
                                  9 ○ ○ 10
            GPIO17      CAM CS   11 ● ○ 12
-                                13 ○ ○ 14
+       GPIO27  LASER SIGNAL   13 ● ○ 14  GND   LASER GND
                                 15 ○ ○ 16
                                 17 ○ ○ 18
            GPIO10     CAM MOSI  19 ● ○ 20
@@ -86,22 +86,25 @@ Pi's 5 V rail and reboot it. The capacitor covers those spikes.
 4. Servo signals to 32 and 33.
 5. Servo grounds to 34 and 30, then 5 V to 2 and 4.
 6. Capacitor across one servo's red and brown.
-7. Check every wire against the map once more before power goes on.
+7. Laser signal to 13, laser GND to 14, laser VCC spliced onto the 5 V rail at pin 2 or 4.
+8. Check every wire against the map once more before power goes on.
 
-## Planned: OLED eyes
+## Laser pointer
 
-An SSD1306 I2C OLED can join later without new signal pins. It shares the camera's I2C bus
-(it answers at 0x3C, the camera at 0x30), so SDA and SCL need a split: a Y jumper, a small
-breadboard, or solder the OLED wires onto the camera's SDA/SCL jumpers.
+A small 3 pin laser module (VCC, GND, S) has its own driver on the signal pin, so GPIO27
+only needs to toggle on and off, the same way GPIO17 toggles the camera's chip select.
 
-| OLED pin | Pi pin |
-|---|---|
-| VCC | 17 (3.3 V, pin 1 is already taken by the camera) |
-| GND | 9 |
-| SDA | 3 (shared with camera) |
-| SCL | 5 (shared with camera) |
+| Laser pin | Pi pin | Signal |
+|---|---|---|
+| S (signal) | 13 | GPIO27, on/off |
+| VCC | 2 or 4 | 5 V, shared with a servo (the module draws far less current than an SG90) |
+| GND | 14 | ground |
 
-After wiring, `i2cdetect -y 1` should show both 30 and 3c.
+**The laser's aim is set by its mount, not by the code.** It sits in a bracket tilted down
+off the camera's own axis, so the beam always lands below chin height no matter where the
+turret is pointed. `laser.py` only ever turns it on while a face is being tracked and off
+otherwise; it never aims it, and it must stay that way. Set `LASER_ENABLED = True` in
+`config.py` once it is wired and the mount is in place.
 
 ## First power on
 

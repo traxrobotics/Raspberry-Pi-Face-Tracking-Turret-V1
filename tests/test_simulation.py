@@ -96,6 +96,26 @@ def test_turret_centers_on_the_face_and_settles(world, monkeypatch):
     assert abs(ex) <= config.DEADZONE_X + 4 and abs(ey) <= config.DEADZONE_Y + 4, "did not center"
 
 
+def test_laser_fires_while_tracking_and_turns_off_on_stop(world, monkeypatch, fake_pwm):
+    import config
+    import laser as laser_module
+
+    monkeypatch.setattr(config, "LASER_ENABLED", True)
+    monkeypatch.setattr(config, "LASER_GPIO", 27)
+    made = []
+    real_make_laser = laser_module.make_laser
+
+    def spy_make_laser(cfg):
+        obj = real_make_laser(cfg)
+        made.append(obj)
+        return obj
+
+    monkeypatch.setattr(laser_module, "make_laser", spy_make_laser)
+    _run(monkeypatch, frames=45)
+    assert made and made[0] is not None, "laser was not built even though LASER_ENABLED was True"
+    assert not made[0].pin.is_active, "laser should be off once the turret has stopped"
+
+
 def test_servos_go_limp_when_stopped(world, monkeypatch, fake_pwm):
     import os
     _run(monkeypatch, frames=10)

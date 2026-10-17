@@ -1,6 +1,6 @@
 [project]
 name = "pi5-face-tracking-turret"
-version = "1.3.0"
+version = "1.4.0"
 description = "Face tracking pan and tilt turret for Raspberry Pi 5 with an ArduCAM Mini 2MP Plus and two SG90 servos"
 readme = "README.md"
 license = { text = "MIT" }
